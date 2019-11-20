@@ -1,3 +1,5 @@
+package nl.sogyo.mancala;
+
 class Bowl extends BeadContainer{
 private Kalaha myKalaha;
 private Bowl Opposing;
@@ -9,11 +11,11 @@ private Bowl Opposing;
 	}
 	
 	//Here we add a refernce to a Kalaha, this kalaha should have the same myPlayer object as this bowl
-	protected void SetmyKalaha(Kalaha kalaha){
+	void SetmyKalaha(Kalaha kalaha){
 		this.myKalaha = kalaha;
 	}
 	//Here we add a reference to the opposing bowl. If we werent allowed to directly set an opposing bowl we could move through the neighbours and count the distance until a switch. Then by moving as far as that distance we reach the opposing bowl
-	protected void SetOpposing(Bowl Opposing){
+	void SetOpposing(Bowl Opposing){
 		this.Opposing = Opposing;
 	}
 	//If the neighbour bowl player is a different player and myPlayer is currently active we should go the kalaha
@@ -22,27 +24,25 @@ private Bowl Opposing;
 			return true;
 		}
 		return false;
-		
+
 	}
 	//Here we check if the player reference is the same for this bowl and its neighbour
-	protected boolean DifferentPlayer(Player Other){
+	private boolean DifferentPlayer(Player Other){
 		if(Other==myPlayer){
 			return false;
 		}
 		return true;
 	}
 	//Here we get the beads from this bowl and tell our neighbour to start an AddOneBead chain using that amount
-	public void MoveBeads(){
+	void MoveBeads(){
 		//If the player that is referenced by the bowl is active this move is valid
 		if(this.myPlayer.GetActive()&&this.Content>0){
 			int Amount =GetBeadsFromBowl();
 			if(GoToKalaha()){
 				myKalaha.AddOneBead(Amount);
-				return;
 			}
 			else{
 				Neighbour.AddOneBead(Amount);
-				return;
 			}
 		}
 		else{
@@ -82,7 +82,7 @@ private Bowl Opposing;
 		this.myPlayer.SwapPlayers();
 	}
 	//We give the kalaha reference in the method so we can give our opposing bowl the same kalaha reference
-	protected void MoveContentToKalaha(Kalaha ThisKalaha){
+	private void MoveContentToKalaha(Kalaha ThisKalaha){
 		int Amount = this.Content;
 		this.Content = 0;
 		ThisKalaha.Add(Amount);
@@ -95,7 +95,7 @@ private Bowl Opposing;
 
 	private boolean AllBowlsOfAnyOnePlayerAreEmpty =false;
 	//Here we start the sequence of questions to determine if any bowl is empty by having the bowls pass around a boolean and have them change it if they are not empty
-	protected void StartAreBowlsEmptyCheck(){
+	void StartAreBowlsEmptyCheck(){
 		Neighbour.AreBowlsEmpty(true,true,this.Identification,this.myPlayer);
 		//This is true only if one of the players bowls are all empty, so this is the game end state
 		if(AllBowlsOfAnyOnePlayerAreEmpty){

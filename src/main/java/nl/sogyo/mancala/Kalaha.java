@@ -1,3 +1,5 @@
+package nl.sogyo.mancala;
+
 class Kalaha extends BeadContainer{
 	
 	
@@ -20,7 +22,7 @@ class Kalaha extends BeadContainer{
 		//We do not swap the turn if the AddOneBead chain ends here so in effect we repeat the turn since the active player did not change
 	}
 	//A way to tell the Kalaha to add an amount to itself
-	protected void Add(int Amount){
+    void Add(int Amount){
 		this.Content+=Amount;
 	}
 	

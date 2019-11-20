@@ -1,20 +1,21 @@
+package nl.sogyo.mancala;
+
 import java.util.*;
-import java.util.regex.*;
 
 public class ConstructMancala{
 
-	List<Bowl> BowlList = new ArrayList<Bowl>();
-	Player playerOne;
-	Player playerTwo;
-	Kalaha KalahaOne;
-	Kalaha KalahaTwo;
+	private List<Bowl> BowlList = new ArrayList<>();
+	private Player playerOne;
+	private Player playerTwo;
+	private Kalaha KalahaOne;
+	private Kalaha KalahaTwo;
 	//We construct 12 bowls, and give each reference to a neighbour bowl, a specific player, a kalaha and an opposing bowl
 	public ConstructMancala(){
 		playerOne = new Player("One",true);
 		playerTwo = new Player("Two",false);
 		playerOne.SetOtherPlayer(playerTwo);
 		playerTwo.SetOtherPlayer(playerOne);
-		
+
 		KalahaOne = new Kalaha(playerOne,"One");
 		KalahaTwo = new Kalaha(playerTwo,"Two");
 		//Here we create a set of bowls that all reference eachother, consisting of 6 bowls with playerOne and 6 bowls with playerTwo
@@ -22,7 +23,7 @@ public class ConstructMancala{
 			if(i<6){
 				BowlList.add(new Bowl(playerOne,Integer.toString(i),4));
 			}
-			else if(i>5){
+			else{
 				BowlList.add(new Bowl(playerTwo,Integer.toString(i),4));
 			}
 			if(BowlList.size()>1){
@@ -67,7 +68,7 @@ public class ConstructMancala{
 		System.out.println("______________________");
 	}
 	//By getting an int we get a specific bowl and tell the specified bowl to start the moveBeads method
-	private void SelectBowlAndDoMove(int i){
+	void SelectBowlAndDoMove(int i){
 		BowlList.get(i).MoveBeads();
 		PrintState();
 	}
@@ -101,7 +102,7 @@ public class ConstructMancala{
 	
 	public static void main(String[] args) {
 		ConstructMancala x = new ConstructMancala();
-		x.RunGame();
+		//x.RunGame();
 		
 		/*
 		//This sequence ends in a capture through empty bowl event
@@ -118,30 +119,30 @@ public class ConstructMancala{
 		x.SelectBowlAndDoMove(1);
 		*/
 		
-		/*
-		//This Sequence triggers the bowls to empty themselves into the kalahas
-		x.SelectBowlAndDoMove(5);
-		x.SelectBowlAndDoMove(8);
-		x.SelectBowlAndDoMove(0);
-		x.SelectBowlAndDoMove(7);
-		x.SelectBowlAndDoMove(9);
-		x.SelectBowlAndDoMove(1);
-		x.SelectBowlAndDoMove(8);
-		x.SelectBowlAndDoMove(5);
-		x.SelectBowlAndDoMove(0);
-		x.SelectBowlAndDoMove(11);
-		x.SelectBowlAndDoMove(5);
-		x.SelectBowlAndDoMove(4);
-		x.SelectBowlAndDoMove(8);
-		x.SelectBowlAndDoMove(5);
-		x.SelectBowlAndDoMove(2);
-		x.SelectBowlAndDoMove(7);
-		x.SelectBowlAndDoMove(0);
-		x.SelectBowlAndDoMove(6);
-		x.SelectBowlAndDoMove(1);
-		x.SelectBowlAndDoMove(7);
-		x.SelectBowlAndDoMove(2);
-		*/
+
+//		//This Sequence triggers the bowls to empty themselves into the kalahas
+//		x.SelectBowlAndDoMove(5);
+//		x.SelectBowlAndDoMove(8);
+//		x.SelectBowlAndDoMove(0);
+//		x.SelectBowlAndDoMove(7);
+//		x.SelectBowlAndDoMove(9);
+//		x.SelectBowlAndDoMove(1);
+//		x.SelectBowlAndDoMove(8);
+//		x.SelectBowlAndDoMove(5);
+//		x.SelectBowlAndDoMove(0);
+//		x.SelectBowlAndDoMove(11);
+//		x.SelectBowlAndDoMove(5);
+//		x.SelectBowlAndDoMove(4);
+//		x.SelectBowlAndDoMove(8);
+//		x.SelectBowlAndDoMove(5);
+//		x.SelectBowlAndDoMove(2);
+//		x.SelectBowlAndDoMove(7);
+//		x.SelectBowlAndDoMove(0);
+//		x.SelectBowlAndDoMove(6);
+//		x.SelectBowlAndDoMove(1);
+//		x.SelectBowlAndDoMove(7);
+//		x.SelectBowlAndDoMove(2);
+
 	}
 	
 }
