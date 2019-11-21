@@ -2,9 +2,8 @@ package nl.sogyo.mancala;
 
 abstract class BeadContainer{
 	Player myPlayer;
-	String Identification;
 	int Content;
-	Bowl Neighbour;
+	BeadContainer Neighbour;
 	
 	
 	
@@ -14,18 +13,20 @@ abstract class BeadContainer{
 	}
 	
 	//Here we obtain a reference to the neighbouring bowl(even for the kalaha)
-	void SetNeighbour(Bowl Neighbour){
+	void SetNeighbour(BeadContainer Neighbour){
 		this.Neighbour = Neighbour;
-		
 	}
 	
-	protected abstract void AddOneBead(int Amount);
-	
-	String GetIdentification(){
-		return this.Identification;
-		
-	}
-	
+	protected abstract void AddOneBeadToSelfAndPassAmountToNextInLine(int Amount);
+
+
+
+	protected abstract void MoveBeadAmountToActivePlayerKalaha(int Amount);
+
+
+	protected abstract void PassAlongCommandToOpposingBowlToEmptyToKalaha(int Amount);
+
+
 	int GetContent(){
 		return this.Content;
 	}

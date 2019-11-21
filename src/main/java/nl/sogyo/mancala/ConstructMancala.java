@@ -10,6 +10,7 @@ public class ConstructMancala{
 	private Kalaha KalahaOne;
 	private Kalaha KalahaTwo;
 	//We construct 12 bowls, and give each reference to a neighbour bowl, a specific player, a kalaha and an opposing bowl
+    /*
 	public ConstructMancala(){
 		playerOne = new Player("One",true);
 		playerTwo = new Player("Two",false);
@@ -101,7 +102,11 @@ public class ConstructMancala{
 	
 	
 	public static void main(String[] args) {
-		ConstructMancala x = new ConstructMancala();
+	    Player player = new Player();
+		Bowl bowl = new Bowl(player);
+		bowl.MoveBeads();
+
+	    //ConstructMancala x = new ConstructMancala();
 		//x.RunGame();
 		
 		/*
@@ -145,4 +150,3 @@ public class ConstructMancala{
 
 	}
 	
-}

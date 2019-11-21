@@ -2,49 +2,53 @@ package nl.sogyo.mancala;
 
 class Bowl extends BeadContainer{
 private Kalaha myKalaha;
-private Bowl Opposing;
 
-	Bowl(Player myPlayer, String Identification,int Content){
+
+	Bowl(){
+		this.myPlayer = new Player();
+		this.Content = 4;
+		this.SetNeighbour(new Bowl(myPlayer,this,3));
+	}
+	Bowl(Player myPlayer,BeadContainer Neighbour){
 		this.myPlayer = myPlayer;
-		this.Identification = Identification;
-		this.Content = Content;
+		this.Content = 4;
+		this.Neighbour = Neighbour;
 	}
-	
-	//Here we add a refernce to a Kalaha, this kalaha should have the same myPlayer object as this bowl
-	void SetmyKalaha(Kalaha kalaha){
-		this.myKalaha = kalaha;
-	}
-	//Here we add a reference to the opposing bowl. If we werent allowed to directly set an opposing bowl we could move through the neighbours and count the distance until a switch. Then by moving as far as that distance we reach the opposing bowl
-	void SetOpposing(Bowl Opposing){
-		this.Opposing = Opposing;
-	}
-	//If the neighbour bowl player is a different player and myPlayer is currently active we should go the kalaha
-	private boolean GoToKalaha(){
-		if(Neighbour.DifferentPlayer(myPlayer)&&myPlayer.GetActive()){
-			return true;
+	Bowl(Player myPlayer,Bowl Start,int i) {
+		this.myPlayer = myPlayer;
+		this.Neighbour=Neighbour;
+		this.Content = 4;
+		if(i<7) {
+			i++;
+			this.SetNeighbour(new Bowl(myPlayer, Start, i));
 		}
-		return false;
+		else if(i==7){
+			i++;
+			this.SetNeighbour(new Kalaha(myPlayer,Start,i));
+		}
+		else if(i>7&&i<14){
+			i++;
+			this.SetNeighbour(new Bowl(myPlayer, Start, i));
+		}
+		else if(i==14){
+			this.SetNeighbour(new Kalaha(myPlayer,Start,i));
+		}
+	}
 
-	}
-	//Here we check if the player reference is the same for this bowl and its neighbour
-	private boolean DifferentPlayer(Player Other){
-		if(Other==myPlayer){
-			return false;
-		}
-		return true;
-	}
+
+
+	//Here we add a reference to the opposing bowl. If we werent allowed to directly set an opposing bowl we could move through the neighbours and count the distance until a switch. Then by moving as far as that distance we reach the opposing bowl
+
+
+
+
 	//Here we get the beads from this bowl and tell our neighbour to start an AddOneBead chain using that amount
 	void MoveBeads(){
 		//If the player that is referenced by the bowl is active this move is valid
 		if(this.myPlayer.GetActive()&&this.Content>0){
 			int Amount =GetBeadsFromBowl();
-			if(GoToKalaha()){
-				myKalaha.AddOneBead(Amount);
+				Neighbour.AddOneBeadToSelfAndPassAmountToNextInLine(Amount);
 			}
-			else{
-				Neighbour.AddOneBead(Amount);
-			}
-		}
 		else{
 			System.out.println("Invalid move try again");
 		}
@@ -56,43 +60,45 @@ private Bowl Opposing;
 		return Beads;
 	}
 	//This adds one bead to this bowl and then either tells the next bowl to continue this cycle or if it was the last bead it checks if this bowl was empty to do a Steal move. Afterwards it tells the players to swap
-	protected void AddOneBead(int Amount){
+	protected void AddOneBeadToSelfAndPassAmountToNextInLine(int Amount){
 		//We add one bead to this bowl and lower the amount of beads by one
 		this.AddOneBead();
 		Amount -=1;
 		//We tell the neighbour to continue the chain if there are one or more beads left in the amount and we stop the action in this bowl by returning
 		if(Amount>0){
-			if(GoToKalaha()){
-				myKalaha.AddOneBead(Amount);
+				Neighbour.AddOneBeadToSelfAndPassAmountToNextInLine(Amount);
 				return;
-			}
-			else{
-				Neighbour.AddOneBead(Amount);
-				return;
-			}
 		}
 		//If the bowl content was empty(so now only contains 1) and the player that is assigned to this bowl is active we perform the stealing action
-		if(this.Content==1&&this.myPlayer.GetActive()){
-			MoveContentToKalaha(myKalaha);
-			Opposing.MoveContentToKalaha(myKalaha);
-		}
-		//Here we check if the game is ended and if so we add all of the beads to their respective kalahas
-		this.StartAreBowlsEmptyCheck();
+        this.TryToSteal();
+        //Here we check if the game is ended and if so we add all of the beads to their respective kalahas
+		//this.StartAreBowlsEmptyCheck();
 		//We can call on myplayer no matter whose turn it is since they set the other as inactive when they go active and vice versa
 		this.myPlayer.SwapPlayers();
 	}
-	//We give the kalaha reference in the method so we can give our opposing bowl the same kalaha reference
-	private void MoveContentToKalaha(Kalaha ThisKalaha){
+
+    private void TryToSteal() {
+        if(this.Content==1&&this.myPlayer.GetActive()){
+            MoveContentToKalaha();
+            //Opposing.MoveContentToKalaha(myKalaha);
+        }
+    }
+
+    //We tell the bowl to move its content along to the neighbours until it hits the Kalaha of the active player, where it gets deposited.
+	private void MoveContentToKalaha(){
 		int Amount = this.Content;
 		this.Content = 0;
-		ThisKalaha.Add(Amount);
+		Neighbour.MoveBeadAmountToActivePlayerKalaha(Amount);
 	}
-	//If no kalaha is specified we default to the linked kalaha
-	protected void MoveContentToKalaha(){
-		this.MoveContentToKalaha(this.myKalaha);
+	protected void MoveBeadAmountToActivePlayerKalaha(int Amount){
+		Neighbour.MoveBeadAmountToActivePlayerKalaha(Amount);
+	}
+	protected void PassAlongCommandToOpposingBowlToEmptyToKalaha(int Amount){
+
 	}
 
 
+/*
 	private boolean AllBowlsOfAnyOnePlayerAreEmpty =false;
 	//Here we start the sequence of questions to determine if any bowl is empty by having the bowls pass around a boolean and have them change it if they are not empty
 	void StartAreBowlsEmptyCheck(){
@@ -105,10 +111,7 @@ private Bowl Opposing;
 	}
 	//Checks if this bowl is empty
 	protected boolean IsEmpty(){
-		if(this.Content==0){
-			return true;
-		}
-		return false;
+		return this.Content==0;
 	}
 	//Here we check if this bowl is empty,if so we modify the boolean that this bowl belongs to, and subsequently we pass that information to the next bowl until we reach the start where we change a value is any of the checks are still true
 	protected void AreBowlsEmpty(boolean CheckBowlsOfMyPlayer,boolean CheckBowlsOfOtherPlayer, String Identification,Player ComparisonPlayer){
@@ -137,12 +140,20 @@ private Bowl Opposing;
 	//The bowl tells the kalaha to add the content of the bowl to itself, then if it is not the bowl who started the sequence it it tells its neighbour to repeat this method.
 	protected void ObtainEndScoreByAddingToKalaha(String ID){
 		this.MoveContentToKalaha();
-		if(!this.Identification.equals(ID)){
+		if(!this.equals(ID)){
 			Neighbour.ObtainEndScoreByAddingToKalaha(ID);
 		}
 	}
 	
 	
-	
-	
+
+
+ */
+
+	public static void main(String[] args) {
+		Bowl bowl = new Bowl();
+		bowl.MoveBeads();
+		bowl.MoveBeads();
+	}
+
 }
