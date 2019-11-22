@@ -3,6 +3,12 @@ package nl.sogyo.mancala;
 import java.util.List;
 
 class Kalaha extends BeadContainer{
+
+
+
+
+
+
 	Kalaha(Player myPlayer,int i,List<Integer> Setup){
 		this.myPlayer = myPlayer;
 		this.content =Setup.get(i-2);
@@ -11,6 +17,11 @@ class Kalaha extends BeadContainer{
 			this.setNeighbour(new Bowl(myPlayer.GetOtherPlayer(), i,Setup));
 		}
 	}
+
+
+
+
+
 	protected void AddOneBeadToSelfAndPassAmountToNeighbour(int beadAmount){
 		//We add one bead to this kalaha and lower the amount of beads by one
 		if(myPlayer.GetActive()) {

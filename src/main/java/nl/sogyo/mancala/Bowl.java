@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bowl extends BeadContainer{
+
+
+
 	private static final List<Integer> StandardStart = new ArrayList<>(List.of(4,4,4,4,4,4,0,4,4,4,4,4,4,0));
 	public Bowl(){
 		this.myPlayer = new Player();
@@ -39,6 +42,13 @@ public class Bowl extends BeadContainer{
 			this.setNeighbour(new Kalaha(myPlayer,i,Setup));
 		}
 	}
+
+
+
+
+
+
+
 	//Here we get the beads from this bowl and tell our neighbour to start an AddOneBead chain using that amount
 	protected void MoveBeads(){
 		//If the player that is referenced by the bowl is active this move is valid
