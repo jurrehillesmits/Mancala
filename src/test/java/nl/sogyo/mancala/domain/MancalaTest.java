@@ -14,6 +14,8 @@ public class MancalaTest {
     Bowl bowl;
     Bowl bowlEmptySide;
     Bowl bowlStealAndEmptyTest;
+
+
     @Before
     public void BeforeTest(){
         SetupGameState.add(0);//Bowl 0  |Steps 0
@@ -55,6 +57,25 @@ public class MancalaTest {
         SetupGameState.clear();
     }
     @Test
+    public void standardBoardSetup(){
+        Bowl StandardBowl = new Bowl();
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(0));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(1));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(2));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(3));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(4));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(5));
+        Assert.assertEquals(0,StandardBowl.passGetContentCommandAlongThisManySteps(6));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(7));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(8));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(9));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(10));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(11));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(12));
+        Assert.assertEquals(0,StandardBowl.passGetContentCommandAlongThisManySteps(13));
+        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(14));
+    }
+    @Test
     public void specificSetupTest()
     {
         Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(0));
@@ -75,7 +96,7 @@ public class MancalaTest {
     }
     @Test
     public void moveBeadActivePlayer(){
-        bowl.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(3);
+        bowl.passMoveBeadsCommandAlongThisManySteps(3);
         Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(3));
         Assert.assertEquals(5,bowl.passGetContentCommandAlongThisManySteps(4));
         Assert.assertEquals(6,bowl.passGetContentCommandAlongThisManySteps(5));
@@ -83,7 +104,7 @@ public class MancalaTest {
     }
     @Test
     public void moveBeadPastActivePlayerKalaha(){
-        bowl.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(4);
+        bowl.passMoveBeadsCommandAlongThisManySteps(4);
         Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(4));
         Assert.assertEquals(6,bowl.passGetContentCommandAlongThisManySteps(5));
         Assert.assertEquals(1,bowl.passGetContentCommandAlongThisManySteps(6));
@@ -92,13 +113,13 @@ public class MancalaTest {
     }
     @Test
     public void moveBeadsAgainByLandingInKalaha(){
-        bowl.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(3);
+        bowl.passMoveBeadsCommandAlongThisManySteps(3);
         Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(3));
     }
     @Test
     public void noMoveDueToNotActivePlayer() {
         Assert.assertFalse(bowl.passGetPlayerActiveCommandAlongThisManySteps(7));
-        bowl.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(6);
+        bowl.passMoveBeadsCommandAlongThisManySteps(7);
         Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(6));
         Assert.assertEquals(7,bowl.passGetContentCommandAlongThisManySteps(7));
         Assert.assertFalse(bowl.passGetPlayerActiveCommandAlongThisManySteps(7));
@@ -106,23 +127,31 @@ public class MancalaTest {
     @Test
     public void noMoveDueToEmptyBowl(){
         Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(0));
-        bowl.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(0);
+        bowl.passMoveBeadsCommandAlongThisManySteps(0);
         Assert.assertEquals(1,bowl.passGetContentCommandAlongThisManySteps(1));
         Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(0));
     }
     @Test
+    public void noMoveDueToSelectingAKalaha(){
+        bowl.passMoveBeadsCommandAlongThisManySteps(13);
+        Assert.assertEquals(14,bowl.passGetContentCommandAlongThisManySteps(13));
+        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(0));
+        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(6));
+        Assert.assertEquals(13,bowl.passGetContentCommandAlongThisManySteps(12));
+    }
+    @Test
     public void swapPlayersAfterNotLandingInAKalaha(){
         Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(1));
-        bowl.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(1);
+        bowl.passMoveBeadsCommandAlongThisManySteps(1);
         Assert.assertFalse(bowl.passGetPlayerActiveCommandAlongThisManySteps(1));
     }
     @Test
     public void skippingInactivePlayerKalahaAndStealingAfterDoingAFullCircle(){
         Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(1));
-        bowl.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(1);
+        bowl.passMoveBeadsCommandAlongThisManySteps(1);
         Assert.assertFalse(bowl.passGetPlayerActiveCommandAlongThisManySteps(1));
         Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(12));
-        bowl.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(11);
+        bowl.passMoveBeadsCommandAlongThisManySteps(12);
         Assert.assertFalse(bowl.passGetPlayerActiveCommandAlongThisManySteps(12));
         Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(0));
         Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(12));
@@ -131,28 +160,29 @@ public class MancalaTest {
     }
     @Test
     public void emptyIntoKalahaWhenBowlsOfActivePlayerAreEmpty(){
-        bowlEmptySide.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(1);
+        bowlEmptySide.passMoveBeadsCommandAlongThisManySteps(1);
         Assert.assertEquals(0,bowlEmptySide.passGetContentCommandAlongThisManySteps(2));
         Assert.assertEquals(24,bowlEmptySide.passGetContentCommandAlongThisManySteps(6));
+        Assert.assertEquals(0,bowlEmptySide.passGetContentCommandAlongThisManySteps(13));
     }
     @Test
     public void doNotEmptyIntoKalahaWhenBowlsOfActivePlayerWereEmptyButGotFilled(){
-        bowlEmptySide.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(3);
+        bowlEmptySide.passMoveBeadsCommandAlongThisManySteps(3);
         Assert.assertEquals(4,bowlEmptySide.passGetContentCommandAlongThisManySteps(2));
         Assert.assertEquals(1,bowlEmptySide.passGetContentCommandAlongThisManySteps(6));
         Assert.assertEquals(1,bowlEmptySide.passGetContentCommandAlongThisManySteps(7));
     }
     @Test
     public void doNotEmptyIntoKalahaWhenSamePlayerRemainsActiveWhileOtherPlayerHasOnlyEmptyBowls(){
-        bowlEmptySide.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(2);
+        bowlEmptySide.passMoveBeadsCommandAlongThisManySteps(2);
         Assert.assertEquals(0,bowlEmptySide.passGetContentCommandAlongThisManySteps(2));
         Assert.assertEquals(1,bowlEmptySide.passGetContentCommandAlongThisManySteps(6));
         Assert.assertEquals(0,bowlEmptySide.passGetContentCommandAlongThisManySteps(7));
     }
     @Test
     public void stealingResultingInAnEmptyBoardForInactivePlayerThatShouldNotGetSwapped(){
-        bowlStealAndEmptyTest.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(0);
-        bowlStealAndEmptyTest.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(7);
+        bowlStealAndEmptyTest.passMoveBeadsCommandAlongThisManySteps(0);
+        bowlStealAndEmptyTest.passMoveBeadsCommandAlongThisManySteps(8);
         Assert.assertEquals(0,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(9));
         Assert.assertEquals(0,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(3));
         Assert.assertEquals(5,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(4));
@@ -160,4 +190,9 @@ public class MancalaTest {
         Assert.assertEquals(0,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(6));
         Assert.assertEquals(6,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(13));
     }
+
+
+
+
+
 }

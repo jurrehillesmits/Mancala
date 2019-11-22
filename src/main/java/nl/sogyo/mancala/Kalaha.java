@@ -3,39 +3,23 @@ package nl.sogyo.mancala;
 import java.util.List;
 
 class Kalaha extends BeadContainer{
-	
-	
-	Kalaha(Player myPlayer,Bowl Start,int i){
+	Kalaha(Player myPlayer,int i,List<Integer> Setup){
 		this.myPlayer = myPlayer;
-		this.Content =0;
+		this.content =Setup.get(i-2);
 		if(i==8) {
 			i++;
-			this.SetNeighbour(new Bowl(myPlayer.GetOtherPlayer(),Start, i));
-		}
-		else{
-			this.SetNeighbour(Start);
+			this.setNeighbour(new Bowl(myPlayer.GetOtherPlayer(), i,Setup));
 		}
 	}
-	Kalaha(Player myPlayer,Bowl Start,int i,List<Integer> Setup){
-		this.myPlayer = myPlayer;
-		this.Content =Setup.get(i-2);
-		if(i==8) {
-			i++;
-			this.SetNeighbour(new Bowl(myPlayer.GetOtherPlayer(),Start, i,Setup));
-		}
-		else{
-			this.SetNeighbour(Start);
-		}
-	}
-	protected void AddOneBeadToSelfAndPassAmountToNextInLine(int beadAmount){
+	protected void AddOneBeadToSelfAndPassAmountToNeighbour(int beadAmount){
 		//We add one bead to this kalaha and lower the amount of beads by one
 		if(myPlayer.GetActive()) {
-			this.AddOneBead();
+			this.addOneBead();
 			beadAmount -= 1;
 		}
 		//We tell the neighbour to continue the chain if there are one or more beads left in the amount
 		if(beadAmount >0){
-			Neighbour.AddOneBeadToSelfAndPassAmountToNextInLine(beadAmount);
+			neighbour.AddOneBeadToSelfAndPassAmountToNeighbour(beadAmount);
 			return;
 		}
 		checkIfAllBowlsOfTheActivePlayerAreEmpty(0);
@@ -46,29 +30,28 @@ class Kalaha extends BeadContainer{
 			add(beadAmount);
 		}
 		else{
-			Neighbour.MoveBeadAmountToActivePlayerKalaha(beadAmount);
+			neighbour.MoveBeadAmountToActivePlayerKalaha(beadAmount);
 		}
 	}
 	//Invert the amount so we start counting up until we reach 0 at the opossing bowl
 	protected void passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(int bowlCount){
 		bowlCount *=-1;
-		Neighbour.passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(bowlCount);
+		neighbour.passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(bowlCount);
 	}
 	protected void checkIfAllBowlsOfTheActivePlayerAreEmpty(int bowlCount){
-		Neighbour.checkIfAllBowlsOfTheActivePlayerAreEmpty(bowlCount);
+		neighbour.checkIfAllBowlsOfTheActivePlayerAreEmpty(bowlCount);
 	}
 	protected void passBeadsAlongToNextKalahaNeighbour(int beadAmount){
 		add(beadAmount);
 	}
 	protected void moveBeadAmountToNextKalahaNeighbour(int bowlCount){
-		Neighbour.moveBeadAmountToNextKalahaNeighbour(bowlCount);
-	}
-	public void passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(int steps){
-		Neighbour.passMoveBeadsCommandAlongThisManyStepsExcludingKalahas(steps);
+		neighbour.moveBeadAmountToNextKalahaNeighbour(bowlCount);
 	}
     void add(int amount){
-		this.Content+=amount;
+		this.content +=amount;
 	}
-	
+	protected void MoveBeads(){
+		System.out.println("Invalid move try again");
+	}
 	
 }
