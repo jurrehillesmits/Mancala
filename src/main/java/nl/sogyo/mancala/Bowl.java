@@ -5,53 +5,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bowl extends BeadContainer{
-
-
-
-	private static final List<Integer> StandardStart = new ArrayList<>(List.of(4,4,4,4,4,4,0,4,4,4,4,4,4,0));
+	private static final List<Integer> standardStart = new ArrayList<>(List.of(4,4,4,4,4,4,0,4,4,4,4,4,4,0));
 	public Bowl(){
-		this.myPlayer = new Player();
-		this.content = StandardStart.get(0);
-		this.setNeighbour(new Bowl(myPlayer,3,StandardStart));
-		neighbour.passNeighbourReference(this);
+		this(standardStart);
 	}
-	//Varying Test Setup
-	public Bowl(List<Integer> Setup){
+	public Bowl(List<Integer> setup){
 		this.myPlayer = new Player();
-		this.content = Setup.get(0);
-		this.setNeighbour(new Bowl(myPlayer,3,Setup));
-		neighbour.passNeighbourReference(this);
+		this.content = setup.get(0);
+		List<BeadContainer> beadContainerList = new ArrayList<>();
+		beadContainerList.add(this);
+		createBeadContainerList(setup, beadContainerList);
+		setSequentialBeadContainersAsNeighbours(beadContainerList);
 	}
-	Bowl(Player myPlayer,int i,List<Integer> Setup) {
+	private Bowl(Player myPlayer, int content){
 		this.myPlayer = myPlayer;
-		this.content = Setup.get(i-2);
-		if(i<7) {
-			i++;
-			this.setNeighbour(new Bowl(myPlayer,i, Setup));
+		this.content = content;
+	}
+	private void createBeadContainerList(List<Integer> setup, List<BeadContainer> beadContainerList) {
+		for(int i =2;i<=14;i++){
+			if(i<7){
+				beadContainerList.add(new Bowl(myPlayer,setup.get(i-1)));
+			}
+			else if(i>7&&i<14){
+				beadContainerList.add(new Bowl(myPlayer.GetOtherPlayer(),setup.get(i-1)));
+			}
+			else if(i==7){
+				beadContainerList.add(new Kalaha(myPlayer,setup.get(i-1)));
+			}
+			else{
+				beadContainerList.add(new Kalaha(myPlayer.GetOtherPlayer(),setup.get(i-1)));
+			}
 		}
-		else if(i==7){
-			i++;
-			this.setNeighbour(new Kalaha(myPlayer,i,Setup));
-		}
-		else if(i<14){
-			i++;
-			this.setNeighbour(new Bowl(myPlayer,i,Setup));
-		}
-		else if(i==14){
-			i++;
-			this.setNeighbour(new Kalaha(myPlayer,i,Setup));
+	}
+	private void setSequentialBeadContainersAsNeighbours(List<BeadContainer> beadContainerList) {
+		for(int i =0;i<beadContainerList.size();i++){
+			beadContainerList.get(i).setNeighbour(beadContainerList.get((i+1)%beadContainerList.size()));
 		}
 	}
 
-
-
-
-
-
-
-	//Here we get the beads from this bowl and tell our neighbour to start an AddOneBead chain using that amount
 	protected void MoveBeads(){
-		//If the player that is referenced by the bowl is active this move is valid
 		if(this.myPlayer.GetActive()&&this.content >0){
 			int Amount =GetBeadsFromBowl();
 				neighbour.AddOneBeadToSelfAndPassAmountToNeighbour(Amount);
@@ -60,36 +52,28 @@ public class Bowl extends BeadContainer{
 			System.out.println("Invalid move try again");
 		}
 	}
-	//This returns the contents of the bowl and sets the contents to zero
 	private int GetBeadsFromBowl(){
 		int Beads = this.content;
 		this.content =0;
 		return Beads;
 	}
-	//This adds one bead to this bowl and then either tells the next bowl to continue this cycle or if it was the last bead it checks if this bowl was empty to do a Steal move. Afterwards it tells the players to swap
 	protected void AddOneBeadToSelfAndPassAmountToNeighbour(int beadAmount){
-		//We add one bead to this bowl and lower the amount of beads by one
 		this.addOneBead();
 		beadAmount -=1;
-		//We tell the neighbour to continue the chain if there are one or more beads left in the amount and we stop the action in this bowl by returning
 		if(beadAmount >0){
 				neighbour.AddOneBeadToSelfAndPassAmountToNeighbour(beadAmount);
 				return;
 		}
 		this.TryToSteal();
-		//We can call on myplayer no matter whose turn it is since they set the other as inactive when they go active and vice versa
 		this.myPlayer.SwapPlayers();
-		//Here we check if the game is ended and if so we add all of the beads to their respective kalahas
 		checkIfAllBowlsOfTheActivePlayerAreEmpty(0);
 	}
-	//If the bowl content was empty(so after adding the last bead it only contains 1) and the player that is assigned to this bowl is active we perform the stealing action
     private void TryToSteal() {
         if(this.content ==1&&this.myPlayer.GetActive()){
             MoveContentToActivePlayerKalaha();
 			passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(0);
         }
     }
-    //We tell the bowl to move its content along to the neighbours until it hits the Kalaha of the active player, where it gets deposited.
 	private void MoveContentToActivePlayerKalaha(){
 		int Amount = this.content;
 		this.content = 0;
@@ -130,5 +114,4 @@ public class Bowl extends BeadContainer{
 	protected void passBeadsAlongToNextKalahaNeighbour(int beadAmount){
 		neighbour.passBeadsAlongToNextKalahaNeighbour(beadAmount);
 	}
-
 }

@@ -7,11 +7,9 @@ abstract class BeadContainer{
 	int getContent() {
 		return content;
 	}
-	//Adding one to content
 	void addOneBead(){
 		this.content +=1;
 	}
-	//Here we obtain a reference to the neighbouring Bead Container
 	void setNeighbour(BeadContainer neighbour){
 		this.neighbour = neighbour;
 	}
