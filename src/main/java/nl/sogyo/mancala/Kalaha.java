@@ -1,27 +1,26 @@
 package nl.sogyo.mancala;
-
 class Kalaha extends BeadContainer{
-	Kalaha(Player myPlayer,int content){
+	Kalaha(Player myPlayer, int content){
 		this.myPlayer = myPlayer;
 		this.content = content;
 	}
-	protected void AddOneBeadToSelfAndPassAmountToNeighbour(int beadAmount){
-		if(myPlayer.GetActive()) {
+	protected void addOneBeadToSelfAndPassAmountToNeighbour(int beadAmount){
+		if(myPlayer.getActive()) {
 			this.addOneBead();
 			beadAmount -= 1;
 		}
 		if(beadAmount >0){
-			neighbour.AddOneBeadToSelfAndPassAmountToNeighbour(beadAmount);
+			neighbour.addOneBeadToSelfAndPassAmountToNeighbour(beadAmount);
 			return;
 		}
 		checkIfAllBowlsOfTheActivePlayerAreEmpty(0);
 	}
-	protected void MoveBeadAmountToActivePlayerKalaha(int beadAmount){
-		if(myPlayer.GetActive()){
+	protected void moveBeadAmountToActivePlayerKalaha(int beadAmount){
+		if(myPlayer.getActive()){
 			add(beadAmount);
 		}
 		else{
-			neighbour.MoveBeadAmountToActivePlayerKalaha(beadAmount);
+			neighbour.moveBeadAmountToActivePlayerKalaha(beadAmount);
 		}
 	}
 	protected void passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(int bowlCount){
@@ -40,7 +39,7 @@ class Kalaha extends BeadContainer{
     void add(int amount){
 		this.content +=amount;
 	}
-	protected void MoveBeads(){
+	protected void moveBeads(){
 		System.out.println("Invalid move try again");
 	}
 	

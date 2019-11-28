@@ -10,51 +10,63 @@ import java.util.List;
 
 public class MancalaTest {
 
-    List<Integer> SetupGameState = new ArrayList<>();
+    List<Integer> setupGameState = new ArrayList<>();
     Bowl bowl;
     Bowl bowlEmptySide;
     Bowl bowlStealAndEmptyTest;
-
-
+//Bowl 0  |Steps 0
+//Bowl 1  |Steps 1
+//Bowl 2  |Steps 2
+//Bowl 3  |Steps 3
+// Bowl 4  |Steps 4
+// Bowl 5  |Steps 5
+// Kalaha 1|Steps 6
+// Bowl 6  |Steps 7
+// Bowl 7  |Steps 8
+// Bowl 8  |Steps 9
+// Bowl 9 |Steps 10
+// Bowl 10|Steps 11
+// Bowl 11|Steps 12
+// Kalaha2|Steps 13
     @Before
     public void BeforeTest(){
-        SetupGameState.add(0);//Bowl 0  |Steps 0
-        SetupGameState.add(1);//Bowl 1  |Steps 1
-        SetupGameState.add(2);//Bowl 2  |Steps 2
-        SetupGameState.add(3);//Bowl 3  |Steps 3
-        SetupGameState.add(4);//Bowl 4  |Steps 4
-        SetupGameState.add(5);//Bowl 5  |Steps 5
-        SetupGameState.add(0);//Kalaha 1|Steps 6
-        SetupGameState.add(7);//Bowl 6  |Steps 7
-        SetupGameState.add(8);//Bowl 7  |Steps 8
-        SetupGameState.add(9);//Bowl 8  |Steps 9
-        SetupGameState.add(10);//Bowl 9 |Steps 10
-        SetupGameState.add(11);//Bowl 10|Steps 11
-        SetupGameState.add(13);//Bowl 11|Steps 12
-        SetupGameState.add(14);//Kalaha2|Steps 13
-        bowl = new Bowl(SetupGameState);
-        SetupGameState.clear();
-        SetupGameState.add(4);//Bowl 0  |Steps 0
-        SetupGameState.add(4);//Bowl 1  |Steps 1
-        SetupGameState.add(4);//Bowl 2  |Steps 2
-        SetupGameState.add(4);//Bowl 3  |Steps 3
-        SetupGameState.add(4);//Bowl 4  |Steps 4
-        SetupGameState.add(4);//Bowl 5  |Steps 5
-        SetupGameState.add(0);//Kalaha 1|Steps 6
-        SetupGameState.add(0);//Bowl 6  |Steps 7
-        SetupGameState.add(0);//Bowl 7  |Steps 8
-        SetupGameState.add(0);//Bowl 8  |Steps 9
-        SetupGameState.add(0);//Bowl 9  |Steps 10
-        SetupGameState.add(0);//Bowl 10 |Steps 11
-        SetupGameState.add(0);//Bowl 11 |Steps 12
-        SetupGameState.add(0);//Kalaha2 |Steps 13
-        bowlEmptySide = new Bowl(SetupGameState);
-        SetupGameState.set(8,1);//Bowl 7|Steps 8
-        bowlStealAndEmptyTest = new Bowl(SetupGameState);
+        setupGameState.add(0);//Bowl 0  |Steps 0
+        setupGameState.add(1);//Bowl 1  |Steps 1
+        setupGameState.add(2);//Bowl 2  |Steps 2
+        setupGameState.add(3);//Bowl 3  |Steps 3
+        setupGameState.add(4);//Bowl 4  |Steps 4
+        setupGameState.add(5);//Bowl 5  |Steps 5
+        setupGameState.add(0);//Kalaha 1|Steps 6
+        setupGameState.add(7);//Bowl 6  |Steps 7
+        setupGameState.add(8);//Bowl 7  |Steps 8
+        setupGameState.add(9);//Bowl 8  |Steps 9
+        setupGameState.add(10);//Bowl 9 |Steps 10
+        setupGameState.add(11);//Bowl 10|Steps 11
+        setupGameState.add(13);//Bowl 11|Steps 12
+        setupGameState.add(14);//Kalaha2|Steps 13
+        bowl = new Bowl(setupGameState);
+        setupGameState.clear();
+        setupGameState.add(4);//Bowl 0  |Steps 0
+        setupGameState.add(4);//Bowl 1  |Steps 1
+        setupGameState.add(4);//Bowl 2  |Steps 2
+        setupGameState.add(4);//Bowl 3  |Steps 3
+        setupGameState.add(4);//Bowl 4  |Steps 4
+        setupGameState.add(4);//Bowl 5  |Steps 5
+        setupGameState.add(0);//Kalaha 1|Steps 6
+        setupGameState.add(0);//Bowl 6  |Steps 7
+        setupGameState.add(0);//Bowl 7  |Steps 8
+        setupGameState.add(0);//Bowl 8  |Steps 9
+        setupGameState.add(0);//Bowl 9  |Steps 10
+        setupGameState.add(0);//Bowl 10 |Steps 11
+        setupGameState.add(0);//Bowl 11 |Steps 12
+        setupGameState.add(0);//Kalaha2 |Steps 13
+        bowlEmptySide = new Bowl(setupGameState);
+        setupGameState.set(8,1);//Bowl 7|Steps 8
+        bowlStealAndEmptyTest = new Bowl(setupGameState);
     }
     @After
     public void AfterTest(){
-        SetupGameState.clear();
+        setupGameState.clear();
     }
     @Test
     public void standardBoardSetup(){
