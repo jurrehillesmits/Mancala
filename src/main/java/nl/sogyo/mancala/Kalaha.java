@@ -53,7 +53,7 @@ class Kalaha extends BeadContainer{
         }
 		neighbour.emptyIntoOwnKalaha(start);
 	}
-    void add(int amount){
+    private void add(int amount){
 		this.content +=amount;
 	}
 	protected void moveBeads() throws IllegalArgumentException{
