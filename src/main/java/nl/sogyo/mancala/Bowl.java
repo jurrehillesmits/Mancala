@@ -10,39 +10,23 @@ public class Bowl extends BeadContainer{
 		this(standardStart);
 	}
 	public Bowl(List<Integer> setup){
+		int number = 0;
 		this.myPlayer = new Player();
-		this.content = setup.get(0);
-		List<BeadContainer> beadContainerList = new ArrayList<>();
-		beadContainerList.add(this);
-		createBeadContainerList(setup, beadContainerList);
-		setSequentialBeadContainersAsNeighbours(beadContainerList);
+		this.content = setup.get(number);
+		number++;
+		setNeighbour(new Bowl(myPlayer,setup,number,this));
 	}
-	private Bowl(Player myPlayer, int content){
+	 Bowl(Player myPlayer,List<Integer> setup,int number, BeadContainer start){
 		this.myPlayer = myPlayer;
-		this.content = content;
-	}
-	private void createBeadContainerList(List<Integer> setup, List<BeadContainer> beadContainerList) {
-		for(int i =2;i<=14;i++){
-			if(i<7){
-				beadContainerList.add(new Bowl(myPlayer,setup.get(i-1)));
-			}
-			else if(i>7&&i<14){
-				beadContainerList.add(new Bowl(myPlayer.getOpponent(),setup.get(i-1)));
-			}
-			else if(i==7){
-				beadContainerList.add(new Kalaha(myPlayer,setup.get(i-1)));
-			}
-			else{
-				beadContainerList.add(new Kalaha(myPlayer.getOpponent(),setup.get(i-1)));
-			}
+		this.content = setup.get(number);
+		number++;
+		if(number!=(setup.size()/2)-1&&number!=(setup.size()-1)) {
+			setNeighbour(new Bowl(myPlayer,setup,number,start));
 		}
-	}
-	private void setSequentialBeadContainersAsNeighbours(List<BeadContainer> beadContainerList) {
-		for(int i =0;i<beadContainerList.size();i++){
-			beadContainerList.get(i).setNeighbour(beadContainerList.get((i+1)%beadContainerList.size()));
+		else {
+			setNeighbour(new Kalaha(myPlayer, setup, number, start));
 		}
-	}
-
+}
 	protected void moveBeads(){
 		if(this.myPlayer.getActive()&&this.content >0){
 			int Amount = getBeadsFromBowl();
@@ -64,17 +48,17 @@ public class Bowl extends BeadContainer{
 				neighbour.addOneBeadAndPassRemainingToNeighbour(beadAmount);
 				return;
 		}
-		this.TryToSteal();
+		this.tryToSteal();
 		this.myPlayer.swapTurn();
 		neighbour.checkIfAllBowlsOfTheActivePlayerAreEmpty(this);
 	}
-    private void TryToSteal() {
+    private void tryToSteal() {
         if(this.content ==1&&this.myPlayer.getActive()){
-            MoveContentToActivePlayerKalaha();
+            moveContentToActivePlayerKalaha();
 			stealFromOpposingBowl(0);
         }
     }
-	private void MoveContentToActivePlayerKalaha(){
+	private void moveContentToActivePlayerKalaha(){
 		int Amount = this.content;
 		this.content = 0;
 		neighbour.moveBeadsToActivePlayerKalaha(Amount);
@@ -88,7 +72,7 @@ public class Bowl extends BeadContainer{
 			neighbour.stealFromOpposingBowl(bowlCount);
 		}
 		else{
-			MoveContentToActivePlayerKalaha();
+			moveContentToActivePlayerKalaha();
 		}
 	}
 	protected void checkIfAllBowlsOfTheActivePlayerAreEmpty(BeadContainer start){

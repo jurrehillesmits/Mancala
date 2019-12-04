@@ -59,136 +59,136 @@ public class MancalaTest {
     @Test
     public void standardBoardSetup(){
         Bowl StandardBowl = new Bowl();
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(0));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(1));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(2));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(3));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(4));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(5));
-        Assert.assertEquals(0,StandardBowl.passGetContentCommandAlongThisManySteps(6));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(7));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(8));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(9));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(10));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(11));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(12));
-        Assert.assertEquals(0,StandardBowl.passGetContentCommandAlongThisManySteps(13));
-        Assert.assertEquals(4,StandardBowl.passGetContentCommandAlongThisManySteps(14));
+        Assert.assertEquals(4,StandardBowl.getContentAt(0));
+        Assert.assertEquals(4,StandardBowl.getContentAt(1));
+        Assert.assertEquals(4,StandardBowl.getContentAt(2));
+        Assert.assertEquals(4,StandardBowl.getContentAt(3));
+        Assert.assertEquals(4,StandardBowl.getContentAt(4));
+        Assert.assertEquals(4,StandardBowl.getContentAt(5));
+        Assert.assertEquals(0,StandardBowl.getContentAt(6));
+        Assert.assertEquals(4,StandardBowl.getContentAt(7));
+        Assert.assertEquals(4,StandardBowl.getContentAt(8));
+        Assert.assertEquals(4,StandardBowl.getContentAt(9));
+        Assert.assertEquals(4,StandardBowl.getContentAt(10));
+        Assert.assertEquals(4,StandardBowl.getContentAt(11));
+        Assert.assertEquals(4,StandardBowl.getContentAt(12));
+        Assert.assertEquals(0,StandardBowl.getContentAt(13));
+        Assert.assertEquals(4,StandardBowl.getContentAt(14));
     }
     @Test
     public void specificSetupTest()
     {
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(0));
-        Assert.assertEquals(1,bowl.passGetContentCommandAlongThisManySteps(1));
-        Assert.assertEquals(2,bowl.passGetContentCommandAlongThisManySteps(2));
-        Assert.assertEquals(3,bowl.passGetContentCommandAlongThisManySteps(3));
-        Assert.assertEquals(4,bowl.passGetContentCommandAlongThisManySteps(4));
-        Assert.assertEquals(5,bowl.passGetContentCommandAlongThisManySteps(5));
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(6));
-        Assert.assertEquals(7,bowl.passGetContentCommandAlongThisManySteps(7));
-        Assert.assertEquals(8,bowl.passGetContentCommandAlongThisManySteps(8));
-        Assert.assertEquals(9,bowl.passGetContentCommandAlongThisManySteps(9));
-        Assert.assertEquals(10,bowl.passGetContentCommandAlongThisManySteps(10));
-        Assert.assertEquals(11,bowl.passGetContentCommandAlongThisManySteps(11));
-        Assert.assertEquals(13,bowl.passGetContentCommandAlongThisManySteps(12));
-        Assert.assertEquals(14,bowl.passGetContentCommandAlongThisManySteps(13));
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(14));
+        Assert.assertEquals(0,bowl.getContentAt(0));
+        Assert.assertEquals(1,bowl.getContentAt(1));
+        Assert.assertEquals(2,bowl.getContentAt(2));
+        Assert.assertEquals(3,bowl.getContentAt(3));
+        Assert.assertEquals(4,bowl.getContentAt(4));
+        Assert.assertEquals(5,bowl.getContentAt(5));
+        Assert.assertEquals(0,bowl.getContentAt(6));
+        Assert.assertEquals(7,bowl.getContentAt(7));
+        Assert.assertEquals(8,bowl.getContentAt(8));
+        Assert.assertEquals(9,bowl.getContentAt(9));
+        Assert.assertEquals(10,bowl.getContentAt(10));
+        Assert.assertEquals(11,bowl.getContentAt(11));
+        Assert.assertEquals(13,bowl.getContentAt(12));
+        Assert.assertEquals(14,bowl.getContentAt(13));
+        Assert.assertEquals(0,bowl.getContentAt(14));
     }
     @Test
     public void moveBeadActivePlayer(){
-        bowl.passMoveBeadsCommandAlongThisManySteps(3);
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(3));
-        Assert.assertEquals(5,bowl.passGetContentCommandAlongThisManySteps(4));
-        Assert.assertEquals(6,bowl.passGetContentCommandAlongThisManySteps(5));
-        Assert.assertEquals(1,bowl.passGetContentCommandAlongThisManySteps(6));
+        bowl.moveBeadsAt(3);
+        Assert.assertEquals(0,bowl.getContentAt(3));
+        Assert.assertEquals(5,bowl.getContentAt(4));
+        Assert.assertEquals(6,bowl.getContentAt(5));
+        Assert.assertEquals(1,bowl.getContentAt(6));
     }
     @Test
     public void moveBeadPastActivePlayerKalaha(){
-        bowl.passMoveBeadsCommandAlongThisManySteps(4);
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(4));
-        Assert.assertEquals(6,bowl.passGetContentCommandAlongThisManySteps(5));
-        Assert.assertEquals(1,bowl.passGetContentCommandAlongThisManySteps(6));
-        Assert.assertEquals(8,bowl.passGetContentCommandAlongThisManySteps(7));
-        Assert.assertEquals(9,bowl.passGetContentCommandAlongThisManySteps(8));
+        bowl.moveBeadsAt(4);
+        Assert.assertEquals(0,bowl.getContentAt(4));
+        Assert.assertEquals(6,bowl.getContentAt(5));
+        Assert.assertEquals(1,bowl.getContentAt(6));
+        Assert.assertEquals(8,bowl.getContentAt(7));
+        Assert.assertEquals(9,bowl.getContentAt(8));
     }
     @Test
     public void moveBeadsAgainByLandingInKalaha(){
-        bowl.passMoveBeadsCommandAlongThisManySteps(3);
-        Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(3));
+        bowl.moveBeadsAt(3);
+        Assert.assertTrue(bowl.getActiveStateOfPlayerAt(3));
     }
     @Test
     public void noMoveDueToNotActivePlayer() {
-        Assert.assertFalse(bowl.passGetPlayerActiveCommandAlongThisManySteps(7));
-        bowl.passMoveBeadsCommandAlongThisManySteps(7);
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(6));
-        Assert.assertEquals(7,bowl.passGetContentCommandAlongThisManySteps(7));
-        Assert.assertFalse(bowl.passGetPlayerActiveCommandAlongThisManySteps(7));
+        Assert.assertFalse(bowl.getActiveStateOfPlayerAt(7));
+        bowl.moveBeadsAt(7);
+        Assert.assertEquals(0,bowl.getContentAt(6));
+        Assert.assertEquals(7,bowl.getContentAt(7));
+        Assert.assertFalse(bowl.getActiveStateOfPlayerAt(7));
     }
     @Test
     public void noMoveDueToEmptyBowl(){
-        Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(0));
-        bowl.passMoveBeadsCommandAlongThisManySteps(0);
-        Assert.assertEquals(1,bowl.passGetContentCommandAlongThisManySteps(1));
-        Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(0));
+        Assert.assertTrue(bowl.getActiveStateOfPlayerAt(0));
+        bowl.moveBeadsAt(0);
+        Assert.assertEquals(1,bowl.getContentAt(1));
+        Assert.assertTrue(bowl.getActiveStateOfPlayerAt(0));
     }
     @Test
     public void noMoveDueToSelectingAKalaha(){
-        bowl.passMoveBeadsCommandAlongThisManySteps(13);
-        Assert.assertEquals(14,bowl.passGetContentCommandAlongThisManySteps(13));
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(0));
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(6));
-        Assert.assertEquals(13,bowl.passGetContentCommandAlongThisManySteps(12));
+        bowl.moveBeadsAt(13);
+        Assert.assertEquals(14,bowl.getContentAt(13));
+        Assert.assertEquals(0,bowl.getContentAt(0));
+        Assert.assertEquals(0,bowl.getContentAt(6));
+        Assert.assertEquals(13,bowl.getContentAt(12));
     }
     @Test
     public void swapPlayersAfterNotLandingInAKalaha(){
-        Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(1));
-        bowl.passMoveBeadsCommandAlongThisManySteps(1);
-        Assert.assertFalse(bowl.passGetPlayerActiveCommandAlongThisManySteps(1));
+        Assert.assertTrue(bowl.getActiveStateOfPlayerAt(1));
+        bowl.moveBeadsAt(1);
+        Assert.assertFalse(bowl.getActiveStateOfPlayerAt(1));
     }
     @Test
     public void skippingInactivePlayerKalahaAndStealingAfterDoingAFullCircle(){
-        Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(1));
-        bowl.passMoveBeadsCommandAlongThisManySteps(1);
-        Assert.assertFalse(bowl.passGetPlayerActiveCommandAlongThisManySteps(1));
-        Assert.assertTrue(bowl.passGetPlayerActiveCommandAlongThisManySteps(12));
-        bowl.passMoveBeadsCommandAlongThisManySteps(12);
-        Assert.assertFalse(bowl.passGetPlayerActiveCommandAlongThisManySteps(12));
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(0));
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(12));
-        Assert.assertEquals(0,bowl.passGetContentCommandAlongThisManySteps(12));
-        Assert.assertEquals(17,bowl.passGetContentCommandAlongThisManySteps(13));
+        Assert.assertTrue(bowl.getActiveStateOfPlayerAt(1));
+        bowl.moveBeadsAt(1);
+        Assert.assertFalse(bowl.getActiveStateOfPlayerAt(1));
+        Assert.assertTrue(bowl.getActiveStateOfPlayerAt(12));
+        bowl.moveBeadsAt(12);
+        Assert.assertFalse(bowl.getActiveStateOfPlayerAt(12));
+        Assert.assertEquals(0,bowl.getContentAt(0));
+        Assert.assertEquals(0,bowl.getContentAt(12));
+        Assert.assertEquals(0,bowl.getContentAt(12));
+        Assert.assertEquals(17,bowl.getContentAt(13));
     }
     @Test
     public void emptyIntoKalahaWhenBowlsOfActivePlayerAreEmpty(){
-        bowlEmptySide.passMoveBeadsCommandAlongThisManySteps(1);
-        Assert.assertEquals(0,bowlEmptySide.passGetContentCommandAlongThisManySteps(2));
-        Assert.assertEquals(24,bowlEmptySide.passGetContentCommandAlongThisManySteps(6));
-        Assert.assertEquals(0,bowlEmptySide.passGetContentCommandAlongThisManySteps(13));
+        bowlEmptySide.moveBeadsAt(1);
+        Assert.assertEquals(0,bowlEmptySide.getContentAt(2));
+        Assert.assertEquals(24,bowlEmptySide.getContentAt(6));
+        Assert.assertEquals(0,bowlEmptySide.getContentAt(13));
     }
     @Test
     public void doNotEmptyIntoKalahaWhenBowlsOfActivePlayerWereEmptyButGotFilled(){
-        bowlEmptySide.passMoveBeadsCommandAlongThisManySteps(3);
-        Assert.assertEquals(4,bowlEmptySide.passGetContentCommandAlongThisManySteps(2));
-        Assert.assertEquals(1,bowlEmptySide.passGetContentCommandAlongThisManySteps(6));
-        Assert.assertEquals(1,bowlEmptySide.passGetContentCommandAlongThisManySteps(7));
+        bowlEmptySide.moveBeadsAt(3);
+        Assert.assertEquals(4,bowlEmptySide.getContentAt(2));
+        Assert.assertEquals(1,bowlEmptySide.getContentAt(6));
+        Assert.assertEquals(1,bowlEmptySide.getContentAt(7));
     }
     @Test
     public void doNotEmptyIntoKalahaWhenSamePlayerRemainsActiveWhileOtherPlayerHasOnlyEmptyBowls(){
-        bowlEmptySide.passMoveBeadsCommandAlongThisManySteps(2);
-        Assert.assertEquals(0,bowlEmptySide.passGetContentCommandAlongThisManySteps(2));
-        Assert.assertEquals(1,bowlEmptySide.passGetContentCommandAlongThisManySteps(6));
-        Assert.assertEquals(0,bowlEmptySide.passGetContentCommandAlongThisManySteps(7));
+        bowlEmptySide.moveBeadsAt(2);
+        Assert.assertEquals(0,bowlEmptySide.getContentAt(2));
+        Assert.assertEquals(1,bowlEmptySide.getContentAt(6));
+        Assert.assertEquals(0,bowlEmptySide.getContentAt(7));
     }
     @Test
     public void stealingResultingInAnEmptyBoardForInactivePlayerThatShouldNotGetSwapped(){
-        bowlStealAndEmptyTest.passMoveBeadsCommandAlongThisManySteps(0);
-        bowlStealAndEmptyTest.passMoveBeadsCommandAlongThisManySteps(8);
-        Assert.assertEquals(0,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(9));
-        Assert.assertEquals(0,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(3));
-        Assert.assertEquals(5,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(4));
-        Assert.assertEquals(4,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(5));
-        Assert.assertEquals(0,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(6));
-        Assert.assertEquals(6,bowlStealAndEmptyTest.passGetContentCommandAlongThisManySteps(13));
+        bowlStealAndEmptyTest.moveBeadsAt(0);
+        bowlStealAndEmptyTest.moveBeadsAt(8);
+        Assert.assertEquals(0,bowlStealAndEmptyTest.getContentAt(9));
+        Assert.assertEquals(0,bowlStealAndEmptyTest.getContentAt(3));
+        Assert.assertEquals(5,bowlStealAndEmptyTest.getContentAt(4));
+        Assert.assertEquals(4,bowlStealAndEmptyTest.getContentAt(5));
+        Assert.assertEquals(0,bowlStealAndEmptyTest.getContentAt(6));
+        Assert.assertEquals(6,bowlStealAndEmptyTest.getContentAt(13));
     }
 
 

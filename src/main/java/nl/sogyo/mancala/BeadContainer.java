@@ -22,11 +22,11 @@ abstract class BeadContainer{
 		}
 	}
 
-    public void passMoveBeadsCommandAlongThisManySteps(int steps){
+    public void moveBeadsAt(int steps){
 	    try {
             if (steps > 0) {
                 steps -= 1;
-                neighbour.passMoveBeadsCommandAlongThisManySteps(steps);
+                neighbour.moveBeadsAt(steps);
             } else {
                 moveBeads();
             }
@@ -35,19 +35,19 @@ abstract class BeadContainer{
 	        System.out.println(e.getMessage());
         }
     }
-    public int passGetContentCommandAlongThisManySteps(int steps){
+    public int getContentAt(int steps){
         if(steps>0){
             steps-=1;
-            return neighbour.passGetContentCommandAlongThisManySteps(steps);
+            return neighbour.getContentAt(steps);
         }
         else{
             return getContent();
         }
     }
-    public boolean passGetPlayerActiveCommandAlongThisManySteps(int steps){
+    public boolean getActiveStateOfPlayerAt(int steps){
         if(steps>0){
             steps-=1;
-            return neighbour.passGetPlayerActiveCommandAlongThisManySteps(steps);
+            return neighbour.getActiveStateOfPlayerAt(steps);
         }
         else{
             return myPlayer.getActive();

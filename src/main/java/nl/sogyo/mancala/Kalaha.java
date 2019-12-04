@@ -1,10 +1,19 @@
 package nl.sogyo.mancala;
 
+import java.util.List;
+
 class Kalaha extends BeadContainer{
-	Kalaha(Player myPlayer,int content){
-		this.myPlayer = myPlayer;
-		this.content = content;
-	}
+    Kalaha(Player myPlayer,List<Integer> setup, int number, BeadContainer start){
+        this.myPlayer= myPlayer;
+	    this.content = setup.get(number);
+	    if(number==(setup.size()/2)-1){
+	        number++;
+            setNeighbour(new Bowl(myPlayer.getOpponent(),setup,number,start));
+        }
+        else{
+            setNeighbour(start);
+        }
+    }
 	protected void addOneBeadAndPassRemainingToNeighbour(int beadAmount){
 		if(myPlayer.getActive()) {
 			this.addOneBead();
