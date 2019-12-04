@@ -5,43 +5,50 @@ class Kalaha extends BeadContainer{
 		this.myPlayer = myPlayer;
 		this.content = content;
 	}
-	protected void AddOneBeadToSelfAndPassAmountToNeighbour(int beadAmount){
-		if(myPlayer.GetActive()) {
+	protected void addOneBeadAndPassRemainingToNeighbour(int beadAmount){
+		if(myPlayer.getActive()) {
 			this.addOneBead();
 			beadAmount -= 1;
 		}
 		if(beadAmount >0){
-			neighbour.AddOneBeadToSelfAndPassAmountToNeighbour(beadAmount);
+			neighbour.addOneBeadAndPassRemainingToNeighbour(beadAmount);
 			return;
 		}
-		checkIfAllBowlsOfTheActivePlayerAreEmpty(0);
+		neighbour.checkIfAllBowlsOfTheActivePlayerAreEmpty(this);
 	}
-	protected void MoveBeadAmountToActivePlayerKalaha(int beadAmount){
-		if(myPlayer.GetActive()){
+	protected void moveBeadsToActivePlayerKalaha(int beadAmount){
+		if(myPlayer.getActive()){
 			add(beadAmount);
 		}
 		else{
-			neighbour.MoveBeadAmountToActivePlayerKalaha(beadAmount);
+			neighbour.moveBeadsToActivePlayerKalaha(beadAmount);
 		}
 	}
-	protected void passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(int bowlCount){
+	protected void stealFromOpposingBowl(int bowlCount){
 		bowlCount *=-1;
-		neighbour.passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(bowlCount);
+		neighbour.stealFromOpposingBowl(bowlCount);
 	}
-	protected void checkIfAllBowlsOfTheActivePlayerAreEmpty(int bowlCount){
-		neighbour.checkIfAllBowlsOfTheActivePlayerAreEmpty(bowlCount);
+	protected void checkIfAllBowlsOfTheActivePlayerAreEmpty(BeadContainer start){
+        if(this==start){
+            neighbour.emptyIntoOwnKalaha(this);
+            return;
+        }
+		neighbour.checkIfAllBowlsOfTheActivePlayerAreEmpty(start);
 	}
-	protected void passBeadsAlongToNextKalahaNeighbour(int beadAmount){
+	protected void passBeadsAlongToNextKalaha(int beadAmount){
 		add(beadAmount);
 	}
-	protected void moveBeadAmountToNextKalahaNeighbour(int bowlCount){
-		neighbour.moveBeadAmountToNextKalahaNeighbour(bowlCount);
+	protected void emptyIntoOwnKalaha(BeadContainer start){
+        if(this==start){
+            return;
+        }
+		neighbour.emptyIntoOwnKalaha(start);
 	}
     void add(int amount){
 		this.content +=amount;
 	}
-	protected void MoveBeads(){
-		System.out.println("Invalid move try again");
+	protected void moveBeads() throws IllegalArgumentException{
+	throw new IllegalArgumentException("Illegal move");
 	}
 	
 }

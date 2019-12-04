@@ -27,13 +27,13 @@ public class Bowl extends BeadContainer{
 				beadContainerList.add(new Bowl(myPlayer,setup.get(i-1)));
 			}
 			else if(i>7&&i<14){
-				beadContainerList.add(new Bowl(myPlayer.GetOtherPlayer(),setup.get(i-1)));
+				beadContainerList.add(new Bowl(myPlayer.getOpponent(),setup.get(i-1)));
 			}
 			else if(i==7){
 				beadContainerList.add(new Kalaha(myPlayer,setup.get(i-1)));
 			}
 			else{
-				beadContainerList.add(new Kalaha(myPlayer.GetOtherPlayer(),setup.get(i-1)));
+				beadContainerList.add(new Kalaha(myPlayer.getOpponent(),setup.get(i-1)));
 			}
 		}
 	}
@@ -43,75 +43,73 @@ public class Bowl extends BeadContainer{
 		}
 	}
 
-	protected void MoveBeads(){
-		if(this.myPlayer.GetActive()&&this.content >0){
-			int Amount =GetBeadsFromBowl();
-				neighbour.AddOneBeadToSelfAndPassAmountToNeighbour(Amount);
+	protected void moveBeads(){
+		if(this.myPlayer.getActive()&&this.content >0){
+			int Amount = getBeadsFromBowl();
+				neighbour.addOneBeadAndPassRemainingToNeighbour(Amount);
 			}
 		else{
-			System.out.println("Invalid move try again");
+			throw new IllegalArgumentException("Illegal move");
 		}
 	}
-	private int GetBeadsFromBowl(){
-		int Beads = this.content;
+	private int getBeadsFromBowl(){
+		int beads = this.content;
 		this.content =0;
-		return Beads;
+		return beads;
 	}
-	protected void AddOneBeadToSelfAndPassAmountToNeighbour(int beadAmount){
+	protected void addOneBeadAndPassRemainingToNeighbour(int beadAmount){
 		this.addOneBead();
 		beadAmount -=1;
 		if(beadAmount >0){
-				neighbour.AddOneBeadToSelfAndPassAmountToNeighbour(beadAmount);
+				neighbour.addOneBeadAndPassRemainingToNeighbour(beadAmount);
 				return;
 		}
 		this.TryToSteal();
-		this.myPlayer.SwapPlayers();
-		checkIfAllBowlsOfTheActivePlayerAreEmpty(0);
+		this.myPlayer.swapTurn();
+		neighbour.checkIfAllBowlsOfTheActivePlayerAreEmpty(this);
 	}
     private void TryToSteal() {
-        if(this.content ==1&&this.myPlayer.GetActive()){
+        if(this.content ==1&&this.myPlayer.getActive()){
             MoveContentToActivePlayerKalaha();
-			passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(0);
+			stealFromOpposingBowl(0);
         }
     }
 	private void MoveContentToActivePlayerKalaha(){
 		int Amount = this.content;
 		this.content = 0;
-		neighbour.MoveBeadAmountToActivePlayerKalaha(Amount);
+		neighbour.moveBeadsToActivePlayerKalaha(Amount);
 	}
-	protected void MoveBeadAmountToActivePlayerKalaha(int beadAmount){
-		neighbour.MoveBeadAmountToActivePlayerKalaha(beadAmount);
+	protected void moveBeadsToActivePlayerKalaha(int beadAmount){
+		neighbour.moveBeadsToActivePlayerKalaha(beadAmount);
 	}
-	protected void passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(int bowlCount){
+	protected void stealFromOpposingBowl(int bowlCount){
 		bowlCount +=1;
 		if(bowlCount !=0){
-			neighbour.passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(bowlCount);
+			neighbour.stealFromOpposingBowl(bowlCount);
 		}
 		else{
 			MoveContentToActivePlayerKalaha();
 		}
 	}
-	protected void checkIfAllBowlsOfTheActivePlayerAreEmpty(int bowlCount){
-		if(myPlayer.GetActive()){
+	protected void checkIfAllBowlsOfTheActivePlayerAreEmpty(BeadContainer start){
+		if(myPlayer.getActive()){
 			if(this.content !=0){
 				return;
 			}
-			bowlCount +=1;
 		}
-		if(bowlCount ==6){
-			moveBeadAmountToNextKalahaNeighbour(0);
+		if(this==start){
+			neighbour.emptyIntoOwnKalaha(this);
 			return;
 		}
-		neighbour.checkIfAllBowlsOfTheActivePlayerAreEmpty(bowlCount);
+		neighbour.checkIfAllBowlsOfTheActivePlayerAreEmpty(start);
 	}
-	protected void moveBeadAmountToNextKalahaNeighbour(int bowlCount){
-		passBeadsAlongToNextKalahaNeighbour(GetBeadsFromBowl());
-		if(bowlCount <12){
-			bowlCount +=1;
-			neighbour.moveBeadAmountToNextKalahaNeighbour(bowlCount);
+	protected void emptyIntoOwnKalaha(BeadContainer start){
+		passBeadsAlongToNextKalaha(getBeadsFromBowl());
+		if(this!=start){
+			neighbour.emptyIntoOwnKalaha(start);
 		}
 	}
-	protected void passBeadsAlongToNextKalahaNeighbour(int beadAmount){
-		neighbour.passBeadsAlongToNextKalahaNeighbour(beadAmount);
+	protected void passBeadsAlongToNextKalaha(int beadAmount){
+		neighbour.passBeadsAlongToNextKalaha(beadAmount);
 	}
 }

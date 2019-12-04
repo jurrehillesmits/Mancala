@@ -23,16 +23,20 @@ abstract class BeadContainer{
 	}
 
     public void passMoveBeadsCommandAlongThisManySteps(int steps){
-        if((steps %14)>0){
-            steps -=1;
-            neighbour.passMoveBeadsCommandAlongThisManySteps(steps);
+	    try {
+            if (steps > 0) {
+                steps -= 1;
+                neighbour.passMoveBeadsCommandAlongThisManySteps(steps);
+            } else {
+                moveBeads();
+            }
         }
-        else{
-            MoveBeads();
+	    catch(IllegalArgumentException e ){
+	        System.out.println(e.getMessage());
         }
     }
     public int passGetContentCommandAlongThisManySteps(int steps){
-        if((steps%14)>0){
+        if(steps>0){
             steps-=1;
             return neighbour.passGetContentCommandAlongThisManySteps(steps);
         }
@@ -41,12 +45,12 @@ abstract class BeadContainer{
         }
     }
     public boolean passGetPlayerActiveCommandAlongThisManySteps(int steps){
-        if((steps%14)>0){
+        if(steps>0){
             steps-=1;
             return neighbour.passGetPlayerActiveCommandAlongThisManySteps(steps);
         }
         else{
-            return myPlayer.GetActive();
+            return myPlayer.getActive();
         }
     }
 //Bowl 0  |Steps 0
@@ -65,12 +69,12 @@ abstract class BeadContainer{
 // Kalaha2|Steps 13
 
 
-	protected abstract void AddOneBeadToSelfAndPassAmountToNeighbour(int beadAmount);
-	protected abstract void MoveBeadAmountToActivePlayerKalaha(int beadAmount);
-	protected abstract void passAlongCommandToOpposingBowlToEmptyIntoActivePlayerKalaha(int bowlCount);
-	protected abstract void checkIfAllBowlsOfTheActivePlayerAreEmpty(int bowlCount);
-	protected abstract void moveBeadAmountToNextKalahaNeighbour(int bowlCount);
-	protected abstract void passBeadsAlongToNextKalahaNeighbour(int beadAmount);
-	protected abstract void MoveBeads();
+	protected abstract void addOneBeadAndPassRemainingToNeighbour(int beadAmount);
+	protected abstract void moveBeadsToActivePlayerKalaha(int beadAmount);
+	protected abstract void stealFromOpposingBowl(int bowlCount);
+	protected abstract void checkIfAllBowlsOfTheActivePlayerAreEmpty(BeadContainer start);
+	protected abstract void emptyIntoOwnKalaha(BeadContainer start);
+	protected abstract void passBeadsAlongToNextKalaha(int beadAmount);
+	protected abstract void moveBeads();
 
 }
