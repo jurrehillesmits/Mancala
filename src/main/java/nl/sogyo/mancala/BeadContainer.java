@@ -13,15 +13,6 @@ abstract class BeadContainer{
 	void setNeighbour(BeadContainer neighbour){
 		this.neighbour = neighbour;
 	}
-	void passNeighbourReference(BeadContainer neighbour){
-		if(this.neighbour!=null){
-            this.neighbour.passNeighbourReference(neighbour);
-		}
-		else{
-            this.setNeighbour(neighbour);
-		}
-	}
-
     public void moveBeadsAt(int steps){
 	    try {
             if (steps > 0) {
