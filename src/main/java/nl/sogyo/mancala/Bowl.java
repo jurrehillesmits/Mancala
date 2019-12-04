@@ -9,7 +9,10 @@ public class Bowl extends BeadContainer{
 	public Bowl(){
 		this(standardStart);
 	}
-	public Bowl(List<Integer> setup){
+	public Bowl(List<Integer> setup) throws IllegalArgumentException{
+		if(setup.size()%2!=0){
+			throw new IllegalArgumentException("Setup list needs to contain an even amount of values");
+		}
 		int number = 0;
 		this.myPlayer = new Player();
 		this.content = setup.get(number);
